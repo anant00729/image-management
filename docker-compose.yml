@@ -1,0 +1,22 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:13
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123123123
+      - POSTGRES_DB=asa404
+
+  flask-app:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5010:5000
+    depends_on:
+      - postgres
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres:123123123@postgres:5432/asa404

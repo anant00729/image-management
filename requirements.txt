@@ -1,0 +1,11 @@
+flask
+flask-sqlalchemy
+flask-marshmallow
+marshmallow-sqlalchemy
+jsonschema
+python-decouple
+psycopg2
+gunicorn
+marshmallow-enum
+flask-cors
+psycopg2
