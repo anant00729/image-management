@@ -127,8 +127,14 @@ def upload_image():
 
     name = image.filename  # Assuming the name is sent as form data
     # Convert JSON string to Python dictionary
-    json_img_info = json.loads(request.form.get('info'))
+    sanitized_string = request.form.get('info')
 
+    print("sanitized_string >>> ", sanitized_string)
+
+    # return jsonify({'message': 'Image uploaded successfully', "sanitized_string": sanitized_string}), 200
+    json_img_info = json.loads(sanitized_string)
+    # json_img_info = ""
+    
     # Save image info to the database
     new_image = Image(name=name, info=json_img_info)
     db.session.add(new_image)

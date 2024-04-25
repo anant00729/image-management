@@ -31,7 +31,7 @@ function ProductItem({ product }) {
       <TableData>{product?.info?.Make?.description}</TableData>
       <TableData>{`${product?.info?.['Image Width']?.description},${product?.info?.['Image Height']?.description}`}</TableData>
       <TableData>
-        <img style={{width: '100px' , height: '100px'}} src={`http://localhost:5001/uploads/${product?.name}`} alt={product?.name}/>
+        <img style={{width: '100px' , height: '100px'}} src={`http://localhost:5010/uploads/${product?.name}`} alt={product?.name}/>
       </TableData>
       {/* <TableData>
         <AppButton size="14px" onClick={() => handleDeleteClick(product?.id)}>

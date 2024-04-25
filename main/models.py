@@ -1,7 +1,7 @@
 from main import db, ma
 from enum import Enum
 from marshmallow_enum import EnumField
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSON
 
 # - Product name (text)
 # - Product ID (number)
@@ -86,7 +86,7 @@ user_update_schema = {
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    info = db.Column(JSONB)
+    info = db.Column(JSON)
 
     def __init__(self, name, info):
         self.name = name
