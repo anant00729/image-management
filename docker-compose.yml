@@ -23,8 +23,8 @@ services:
     volumes:
       - /Users/anantawasthy/Documents/BDHWorkspace/picture-upload/client/build/uploads:/app/client/build/uploads
     networks:
-      - test
-            
+      - image-management_default
+
 networks:
-  test:
+  image-management_default:
     external: true  #        
