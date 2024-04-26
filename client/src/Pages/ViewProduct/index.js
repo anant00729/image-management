@@ -51,7 +51,7 @@ function ProductView() {
                 {Object.keys(selectedProduct?.info).map((key, index) => {
                   return <TableRow key={index}>
                     <TableData>{key}</TableData>
-                    <TableData>{selectedProduct?.info[key].description}</TableData>
+                    {(typeof selectedProduct?.info[key].description === "string") ? <TableData>{selectedProduct?.info[key].description}</TableData> : null}
                   </TableRow>  
                 })}
             </tbody>

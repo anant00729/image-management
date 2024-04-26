@@ -60,7 +60,7 @@ app.register_blueprint(product, url_prefix=f"{V1}/")
 # Setup database and creates all the tables using the models classes that extends SQLAlchemy
 def create_app():
     with app.app_context():
-        # db.drop_all()
+        db.drop_all()
         db.create_all()
 
 
