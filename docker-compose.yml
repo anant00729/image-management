@@ -22,3 +22,9 @@ services:
       - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres:123123123@postgres:5432/asa404
     volumes:
       - /Users/anantawasthy/Documents/BDHWorkspace/picture-upload/client/build/uploads:/app/client/build/uploads
+    networks:
+      - test
+            
+networks:
+  test:
+    external: true  #        
