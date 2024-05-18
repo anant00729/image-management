@@ -27,7 +27,7 @@ const initialState = {
     localStorage.getItem("username") != "undefined",
 };
 
-const BASE_URL = 'http://localhost:5010/v1/'
+const BASE_URL = 'https://cs-meridian-01.cmpt.sfu.ca/v1/'
 
 // Create context
 export const GlobalContext = createContext(initialState);

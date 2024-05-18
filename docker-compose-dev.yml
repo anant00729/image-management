@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik:v2.5
+    command:
+      - "--api.insecure=true" # Enable API for dashboard (optional)
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web-secure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.email=bdh_data@sfu.ca" 
+      - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./acme.json:/acme.json
+      - ./traefik.log:/traefik.log 
+      - /meridianZFS/users/traction_creative/image-management/certificates/Certificates/cert.pem:/etc/ssl/cert.pem
+      - /meridianZFS/users/traction_creative/image-management/certificates/Certificates/key.pem:/etc/ssl/key.pem
+    networks:
+      - image-management_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.reverse-proxy.rule=Host(`cs-meridian-01.cmpt.sfu.ca`)"
+      - "traefik.http.routers.reverse-proxy.entrypoints=web-secure"
+      - "traefik.http.routers.reverse-proxy.tls=true"
+      - "traefik.http.routers.reverse-proxy.tls.certresolver=myresolver"
+      - "traefik.http.routers.reverse-proxy.tls.certificates=/etc/ssl/cert.pem,/etc/ssl/key.pem"
+
+  postgres:
+    image: postgres:13
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123123123
+      - POSTGRES_DB=asa404
+    networks:
+      - image-management_default
+
+  flask-app:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flask-app.rule=Host(`cs-meridian-01.cmpt.sfu.ca`) && PathPrefix(`/`)"
+      - "traefik.http.services.flask-app.loadbalancer.server.port=5000"
+    depends_on:
+      - postgres
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres:123123123@postgres:5432/asa404
+    volumes:
+      - /meridianZFS/users/traction_creative/image-management/client/build/uploads:/app/client/build/uploads
+    networks:
+      - image-management_default
+
+networks:
+  image-management_default:
+    external: true

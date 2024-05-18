@@ -31,7 +31,7 @@ function ProductView() {
       <PageTitle>Image Details</PageTitle>  
       <ProductContainer>
         <ProductFormContainer>
-            <img style={{width: '200px' , height: '200px', margin: '0 auto'}} src={`http://localhost:5010/uploads/${selectedProduct?.name}`} alt={selectedProduct?.name}/>
+            <img style={{width: '200px' , height: '200px', margin: '0 auto'}} src={`https://cs-meridian-01.cmpt.sfu.ca/uploads/${selectedProduct?.name}`} alt={selectedProduct?.name}/>
             {/* <AppFormLabel>Image Name: {selectedProduct?.name}</AppFormLabel>
             <AppFormLabel>Image Id: {selectedProduct?.id}</AppFormLabel> */}
             {/* <AppFormLabel>Image Id: {JSON.stringify(selectedProduct?.info)}</AppFormLabel> */}
